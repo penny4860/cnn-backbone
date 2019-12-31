@@ -33,9 +33,10 @@ def postprocess(preds, cams, top_k=1):
 
 
 if __name__ == '__main__':
-    model = efficientnet.EfficientNetB1(**default_setting)
-    # model = efficientnet.EfficientNetB1()
-    model.summary()
+    model = efficientnet.EfficientNetB2(**default_setting)
+    # model.summary()
+    input_size = model.layers[0].output_shape[1]
+    print(input_size)
 
     LAST_CONV_LAYER = 'top_activation'
     PRED_LAYER = 'probs'
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 
     original_img = cv2.imread(input_image)[:, :, ::-1]
     original_size = (original_img.shape[1], original_img.shape[0])
-    img = cv2.resize(original_img, (240, 240))
+    img = cv2.resize(original_img, (input_size, input_size))
     img = efficientnet.preprocess_input(img, **default_setting)
     imgs = np.expand_dims(img, axis=0)
     print(imgs.shape)
