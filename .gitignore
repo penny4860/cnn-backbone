@@ -10,3 +10,6 @@ Keras_Applications.egg-info
 .coverage
 .cache
 .pytest_cache
+
+.vscode/*
+.env
