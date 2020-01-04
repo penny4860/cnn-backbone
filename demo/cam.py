@@ -23,7 +23,9 @@ def load_img(fname, input_size, preprocess_fn):
 
 
 def postprocess(preds, cams, top_k=1):
-    idxes = np.argsort(preds[0])[-top_k:]
+    # idxes = np.argsort(preds[0])[-top_k:]
+    idxes = np.argsort(preds[0])[:top_k]
+
     class_activation_map = np.zeros_like(cams[0, :, :, 0])
     for i in idxes:
         class_activation_map += cams[0, :, :, i]
@@ -33,7 +35,7 @@ def postprocess(preds, cams, top_k=1):
 
 
 if __name__ == '__main__':
-    model = efficientnet.EfficientNetB2(**default_setting)
+    model = efficientnet.EfficientNetB4(**default_setting)
     # model.summary()
     input_size = model.layers[0].output_shape[1]
     print(input_size)
@@ -42,7 +44,7 @@ if __name__ == '__main__':
     PRED_LAYER = 'probs'
     N_CLASSES = 1000
 
-    input_image = "imgs/sample.jpg"
+    input_image = "imgs/img2.jpg"
 
     original_img = cv2.imread(input_image)[:, :, ::-1]
     original_size = (original_img.shape[1], original_img.shape[0])
@@ -68,7 +70,7 @@ if __name__ == '__main__':
     print(preds.shape, cams.shape)
 
     # # 4. post processing
-    class_activation_map = postprocess(preds, cams, top_k=1)
+    class_activation_map = postprocess(preds, cams, top_k=10)
 
     # 5. plot image+cam to original size
     plt.imshow(original_img, alpha=0.5)
