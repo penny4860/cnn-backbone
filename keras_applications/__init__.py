@@ -11,10 +11,11 @@ _KERAS_UTILS = None
 
 
 def get_submodules_from_kwargs(kwargs):
-    backend = kwargs.get('backend', _KERAS_BACKEND)
-    layers = kwargs.get('layers', _KERAS_LAYERS)
-    models = kwargs.get('models', _KERAS_MODELS)
-    utils = kwargs.get('utils', _KERAS_UTILS)
+    import keras
+    backend = keras.backend
+    layers = keras.layers
+    models = keras.models
+    utils = keras.utils
     for key in kwargs.keys():
         if key not in ['backend', 'layers', 'models', 'utils']:
             raise TypeError('Invalid keyword argument: %s', key)
@@ -64,3 +65,7 @@ from . import resnet
 from . import resnet_v2
 from . import resnext
 from . import efficientnet
+
+import os
+PKG_ROOT = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.dirname(PKG_ROOT)

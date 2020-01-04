@@ -13,3 +13,4 @@ Keras_Applications.egg-info
 
 .vscode/*
 .env
+.idea/*
